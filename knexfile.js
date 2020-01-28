@@ -24,7 +24,7 @@ module.exports = {
   },
 
   production: {
-    client: "pg",
+    client: "sqlite3",
     connection: {
       filename: "./database/movie.db3"
     },
