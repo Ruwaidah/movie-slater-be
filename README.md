@@ -12,8 +12,6 @@
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
 - Clone this repo
 - **npm install** to install all required dependencies
 - **npm run server** to start the local server
@@ -33,27 +31,18 @@ To get the server running locally:
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+#### Movies Routes
 
-#### Organization Routes
-
-| Method | Endpoint                | Access Control | Description                         |
-| ------ | ----------------------- | -------------- | ----------------------------------- |
-| GET    | `/api/movies`           | all users      | Returns the information for movies. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.    |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.             |
+| Method | Endpoint      | Access Control | Description                         |
+| ------ | ------------- | -------------- | ----------------------------------- |
+| GET    | `/api/movies` | all users      | Returns the information for movies. |
 
 #### User Routes
 
-| Method | Endpoint             | Access Control      | Description                                        |
-| ------ | -------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`     | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId` | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`     | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/api/auth/register` | none                | Creates a new user as owner of a new organization. |
-| POST   | `/api/auth/login`    | none                | create token for user                              |
-| PUT    | `/users/:userId`     | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`     | owners, supervisors |                                                    |
+| Method | Endpoint             | Access Control | Description           |
+| ------ | -------------------- | -------------- | --------------------- |
+| POST   | `/api/auth/register` | none           | Creates new Consumer. |
+| POST   | `/api/auth/login`    | none           | create token for user |
 
 # Data Model
 
