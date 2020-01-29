@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const validateUser = require("../auth-helper.js");
 
 const Users = require("./consumer-model.js");
 
-router.post("/register", (req, res) => {
+router.post("/register", validateUser.register, (req, res) => {
   const user = ({ email, password, username } = req.body);
   const hash = bcrypt.hashSync(user.password, 8);
   user.password = hash;
@@ -26,10 +27,10 @@ router.post("/register", (req, res) => {
     });
 });
 
-router.post("/login", (req, res) => {
-  let { username, password } = req.body;
+router.post("/login", validateUser.login, (req, res) => {
+  let { email, password } = req.body;
 
-  Users.findBy({ username })
+  Users.findBy({ email })
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = signToken(user);
@@ -37,7 +38,7 @@ router.post("/login", (req, res) => {
           token: token,
           user_id: user.id,
           email: user.email,
-          message: `Welcome ${user.username}!`
+          message: `Welcome ${user.email}!`
         });
       } else {
         console.log(user);
