@@ -26,7 +26,7 @@ describe("POST /api/auth/register", () => {
 // Login
 describe("POST /api/auth/login", () => {
   let user = { email: "tes@test.com", password: "tes" };
-  it("testing Login  user::", () => {
+  it("testing Login  user:", () => {
     return request(server)
       .post("/api/auth/login")
       .send(user)
@@ -46,6 +46,7 @@ describe("GET /api/movies", () => {
       .expect(200)
       .then(res => {
         expect(Array.isArray(res.body)).toBe(true);
+        expect(200);
       });
   });
 });
