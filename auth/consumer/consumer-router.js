@@ -38,6 +38,7 @@ router.post("/login", validateUser.login, (req, res) => {
           token: token,
           user_id: user.id,
           email: user.email,
+          username: user.username,
           message: `Welcome ${user.email}!`
         });
       } else {
