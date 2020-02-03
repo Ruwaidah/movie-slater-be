@@ -4,10 +4,12 @@ const helmet = require("helmet");
 const consumerRouter = require("../auth/consumer/consumer-router");
 const ownerRouter = require("../auth/owner/owner-router");
 const movies = require("../movies/movies-router.js");
+const morgan = require("morgan");
 
 const server = express();
 
 server.use(helmet());
+server.use(morgan("dev"));
 server.use(cors());
 server.use(express.json());
 server.use("/api/auth", consumerRouter);
