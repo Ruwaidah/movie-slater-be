@@ -25,7 +25,6 @@ router.get("/", (req, res) => {
                 res.status(200).json(movies.data);
               } else {
                 i++;
-                console.log(i);
                 imageLoop();
               }
             })
@@ -58,19 +57,16 @@ function checkDate(req) {
 
 function Imagedata(title, year) {
   if (title == "Star Wars: The Rise of Skywalker") {
-    console.log("star wars", title.includes(":"));
     title = "Star Wars";
   }
 
   if (title.includes(":")) {
     title = title.split(":")[0];
-    console.log(title);
   }
 
   if (title == "The Gentlemen") {
     year = 2019;
   }
-  console.log(year);
   return axios.get(
     `http://www.omdbapi.com/?t=${title}&y=${year}&apikey=${process.env.OM_API_KEY}`
   );
