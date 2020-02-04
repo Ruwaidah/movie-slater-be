@@ -33,9 +33,10 @@ To get the server running locally:
 
 #### Movies Routes
 
-| Method | Endpoint      | Access Control | Description                         |
-| ------ | ------------- | -------------- | ----------------------------------- |
-| GET    | `/api/movies` | all users      | Returns the information for movies. |
+| Method | Endpoint      | Access Control | Description                           |
+| ------ | ------------- | -------------- | ------------------------------------- |
+| GET    | `/api/movies` | all users      | Returns the information for movies.   |
+| GET    | `/api/seats`  | all seats      | Returns all the information for seats |
 
 #### User Routes
 
