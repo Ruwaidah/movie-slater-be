@@ -22,15 +22,14 @@ router.post("/register", validateUser.register, (req, res) => {
       });
     })
     .catch(err => {
-      console.log(err);
       res.status(500).json({ message: "Error registering" });
     });
 });
 
 router.post("/login", validateUser.login, (req, res) => {
-  let { username, password } = req.body;
+  let { email, password } = req.body;
 
-  Owner.findBy({ username })
+  Owner.findBy({ email })
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = signToken(user);
@@ -38,6 +37,7 @@ router.post("/login", validateUser.login, (req, res) => {
           token: token,
           user_id: user.id,
           email: user.email,
+          username: user.username,
           message: `Welcome ${user.username}!`
         });
       } else {
