@@ -25,7 +25,7 @@ describe("POST /api/auth/register", () => {
 
 // Login
 describe("POST /api/auth/login", () => {
-  let user = { email: "tes@test.com", password: "tes" };
+  let user = { email: "test@test.com", password: "test" };
   it("testing Login  user:", () => {
     return request(server)
       .post("/api/auth/login")
