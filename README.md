@@ -8,7 +8,7 @@
 
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### 1️⃣ Backend delpoyed at [Heroku](https://movie-knight.herokuapp.com/) <br>
 
 ## 1️⃣ Getting started
 
@@ -36,11 +36,10 @@ To get the server running locally:
 
 #### Organization Routes
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| Method | Endpoint      | Access Control | Description                           |
+| ------ | ------------- | -------------- | ------------------------------------- |
+| GET    | `/api/movies` | all users      | Returns the information for movies.   |
+| GET    | `/api/seats`  | all seats      | Returns all the information for seats |
 
 #### User Routes
 
