@@ -2,7 +2,8 @@ const db = require("../../database/dbConfig.js");
 
 module.exports = {
   findBy,
-  add
+  add,
+  findById
 };
 
 function findBy(email) {
@@ -11,9 +12,16 @@ function findBy(email) {
     .first();
 }
 
-function add(consumer) {
-  return db("oauth_consumer").insert(
+function findById(id) {
+  return db("oauth_consumer")
+    .where({ id })
+    .first();
+}
+
+async function add(consumer) {
+  const [id] = await db("oauth_consumer").insert(
     { name: consumer.name, email: consumer.email },
     "id"
   );
+  return findById(id);
 }
