@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
         image: response.data.picture
       });
     })
-    .catch(error => res.status(500).json({ message: "invalid token" }));
+    .catch(error => res.status(401).json({ message: "invalid token" }));
 });
 
 module.exports = router;
