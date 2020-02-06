@@ -5,34 +5,18 @@ const restricted = require("./restricted-middleware.js");
 
 // Login With Google Oauth
 router.get("/", restricted, (req, res) => {
-  Consumer.findBy(req.user.email)
+  const userInfo = req.user;
+  Consumer.findBy(userInfo.email)
     .then(consum => {
       if (consum) res.status(200).json(consum);
       else
-        Consumer.add(req.user)
+        Consumer.add(userInfo)
           .then(resp => res.status(201).json(resp))
           .catch(error =>
             res.status(500).json({ message: "error getting data" })
           );
     })
     .catch(error => console.log(error));
-  // const { authorization } = req.headers;
-  // axios
-  //   .get(`https://oauth2.googleapis.com/tokeninfo?id_token=${authorization}`)
-  //   .then(response =>
-  //     Consumer.findBy(response.data.email)
-  //       .then(consum => {
-  //         if (consum) res.status(200).json(consum);
-  //         else
-  //           Consumer.add(response.data)
-  //             .then(resp => res.status(201).json(resp))
-  //             .catch(error =>
-  //               res.status(500).json({ message: "error getting data" })
-  //             );
-  //       })
-  //       .catch(error => console.log(error))
-  //   )
-  //   .catch(error => res.status(500).json({ message: "error getting data" }));
 });
 
 module.exports = router;
