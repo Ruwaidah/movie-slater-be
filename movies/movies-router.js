@@ -64,6 +64,10 @@ function Imagedata(title, year) {
     title = title.split(":")[0];
   }
 
+  if (title.includes("(")) {
+    title = title.split("(")[0];
+  }
+
   if (title == "The Gentlemen") {
     year = 2019;
   }
