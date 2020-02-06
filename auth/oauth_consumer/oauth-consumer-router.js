@@ -13,10 +13,10 @@ router.get("/", restricted, (req, res) => {
         Consumer.add(userInfo)
           .then(resp => res.status(201).json(resp))
           .catch(error =>
-            res.status(500).json({ message: "error getting data" })
+            res.status(500).json({ message: "error adding data" })
           );
     })
-    .catch(error => console.log(error));
+    .catch(error => res.status(500).json({ message: "error getting data" }));
 });
 
 module.exports = router;
