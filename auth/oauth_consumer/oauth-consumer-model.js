@@ -20,7 +20,7 @@ function findById(id) {
 
 async function add(consumer) {
   const [id] = await db("oauth_consumer").insert(
-    { name: consumer.name, email: consumer.email },
+    { name: consumer.name, email: consumer.email, googleId: consumer.sub },
     "id"
   );
   return findById(id);

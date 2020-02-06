@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 // Login With Google Oauth
 router.get("/", restricted, (req, res) => {
   const userInfo = req.user;
+  console.log(userInfo);
   const token = signToken(userInfo);
   Consumer.findBy(userInfo.email)
     .then(consum => {
