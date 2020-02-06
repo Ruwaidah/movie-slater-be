@@ -5,7 +5,6 @@ const Consumer = require("./oauth-consumer-model.js");
 
 // Login With Google Oauth
 router.post("/", (req, res) => {
-  console.log("fewfewfW", res.body);
   async function verify() {
     const ticket = await client.verifyIdToken({
       idToken: req.body.tokenObj.id_token,
