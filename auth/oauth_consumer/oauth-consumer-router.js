@@ -1,11 +1,11 @@
 const router = require("express").Router();
 const { OAuth2Client } = require("google-auth-library");
-const client = new OAuth2Client(process.env.OAUTH_CLIENT);
 const Consumer = require("./oauth-consumer-model.js");
 const restricted = require("./restricted-middleware.js");
 
 // Login With Google Oauth
 router.get("/", (req, res) => {
+  const client = new OAuth2Client(process.env.OAUTH_CLIENT);
   const { authorization } = req.headers;
 
   async function verify() {
