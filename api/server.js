@@ -9,6 +9,7 @@ const seatRouter = require("../seats/seats-router.js");
 const oauth = require("../auth/oauth_consumer/oauth-consumer-router.js");
 
 const server = express();
+server.use(cors());
 const corsOptions = {
   origin: true,
   credentials: true
@@ -17,7 +18,6 @@ server.options("*", cors(corsOptions)); // preflight OPTIONS; put before other r
 
 server.use(helmet());
 server.use(morgan("dev"));
-server.use(cors());
 server.use(express.json());
 server.use("/api/auth", consumerRouter);
 server.use("/api/auth/owner", ownerRouter);
