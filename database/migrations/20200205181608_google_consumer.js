@@ -3,6 +3,10 @@ exports.up = function(knex) {
     tbl.increments();
     tbl.string("name", 255).notNullable();
     tbl
+      .string("googleId", 255)
+      .notNullable()
+      .unique();
+    tbl
       .string("email", 255)
       .notNullable()
       .unique();
