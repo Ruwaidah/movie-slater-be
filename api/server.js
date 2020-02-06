@@ -10,11 +10,17 @@ const oauth = require("../auth/oauth_consumer/oauth-consumer-router.js");
 
 const server = express();
 server.use(cors());
-const corsOptions = {
-  origin: true,
-  credentials: true
-};
-server.options("*", cors(corsOptions)); // preflight OPTIONS; put before other routes
+server.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"),
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+
+  req.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+
+  next();
+});
 
 server.use(helmet());
 server.use(morgan("dev"));
