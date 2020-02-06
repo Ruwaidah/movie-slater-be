@@ -2,7 +2,7 @@ const db = require("../../database/dbConfig.js");
 
 module.exports = {
   findBy,
-  insert
+  add
 };
 
 function findBy(email) {
@@ -11,7 +11,7 @@ function findBy(email) {
     .first();
 }
 
-function insert(consumer) {
+function add(consumer) {
   return db("oauth_consumer").insert(
     { name: consumer.name, email: consumer.email },
     "id"
