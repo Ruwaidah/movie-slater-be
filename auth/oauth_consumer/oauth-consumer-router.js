@@ -4,20 +4,21 @@ const client = new OAuth2Client(process.env.OAUTH_CLIENT);
 const Consumer = require("./oauth-consumer-model.js");
 
 // Login With Google Oauth
-router.post("/", middleWare, (req, res) => {
+router.post("/", (req, res) => {
+  console.log("fewfewfW", res.body);
   async function verify() {
     const ticket = await client.verifyIdToken({
-      idToken: req.body.token,
+      idToken: req.body.tokenObj.id_token,
       audience: process.env.OAUTH_CLIENT
     });
     const payload = ticket.getPayload();
     const userid = payload["sub"];
     if (userid) {
-      Consumer.findBy(req.body.userinfo.email).then(consum => {
+      Consumer.findBy(req.body.profileObj.email).then(consum => {
         if (consum) {
           res.status(200).json(consum);
         } else {
-          Consumer.insert(req.body.userinfo).then(resp =>
+          Consumer.insert(req.body.profileObj).then(resp =>
             res.status(201).json(resp)
           );
         }
@@ -30,7 +31,7 @@ router.post("/", middleWare, (req, res) => {
 });
 
 function middleWare(req, res, next) {
-  if (req.body) next();
+  if (req.body && req.body.tokenObj) next();
   else res.status(400).json({ message: "missing data" });
 }
 
