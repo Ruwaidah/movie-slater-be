@@ -9,15 +9,11 @@ const seatRouter = require("../seats/seats-router.js");
 const oauth = require("../auth/oauth_consumer/oauth-consumer-router.js");
 
 const server = express();
-server.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*"),
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    );
-
-  next();
-});
+const corsOptions = {
+  origin: true,
+  credentials: true
+};
+server.options("*", cors(corsOptions)); // preflight OPTIONS; put before other routes
 
 server.use(helmet());
 server.use(morgan("dev"));
