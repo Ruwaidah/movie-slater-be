@@ -38,6 +38,54 @@ router.get("/", (req, res) => {
     .catch(error => res.status(500).json({ message: "error geting Data" }));
 });
 
+// Movie Details with TMDB API
+router.post("/moviedetails", (req, res) => {
+  let i = 1;
+  const title = req.body.title;
+  getmovie(i);
+
+  function getmovie(number) {
+    axios
+      .get(
+        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_APIKEY}&language=en-US&query=${title}&page=${number}&include_adult=true`
+      )
+      .then(response => {
+        let movie1 = response.data.results[0];
+        if (movie1.length <= 0 && i <= 5) {
+          i++;
+          return getmovie(i);
+        }
+
+        axios
+          .get(
+            `https://api.themoviedb.org/3/movie/${movie1.id}/videos?api_key=${process.env.TMDB_APIKEY}&language=en-US
+          `
+          )
+          .then(respo => {
+            axios
+              .get(
+                `https://api.themoviedb.org/3/movie/${movie1.id}/credits?api_key=${process.env.TMDB_APIKEY}`
+              )
+              .then(casts => {
+                res.status(200).json({
+                  movie: movie1,
+                  casts: [casts.data.cast.slice(0, 4)],
+                  videos: respo.data.results
+                });
+              });
+          })
+          .catch(error =>
+            res.status(500).json({ message: "error geting Data" })
+          )
+
+          .catch(error =>
+            res.status(500).json({ message: "error geting Data" })
+          );
+      })
+      .catch(error => res.status(500).json({ message: "error geting Data" }));
+  }
+});
+
 module.exports = router;
 
 function checkZip(req) {
