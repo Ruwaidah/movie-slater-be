@@ -23,6 +23,7 @@ async function add(user) {
 }
 
 function findById(id) {
+  console.log(id);
   return db("owner")
     .where({ id })
     .first();

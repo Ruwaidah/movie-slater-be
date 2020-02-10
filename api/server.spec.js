@@ -10,22 +10,25 @@ describe("GET /", () => {
 
 // Register
 describe("POST /api/auth/register", () => {
-  let user = {
-    username: "tes11",
-    password: "tes11",
-    email: "tes11@test.com"
+  let user1 = {
+    username: "tes111",
+    password: "tes111",
+    email: "tes111@test.com"
   };
   it("testing register new user::", () => {
     return request(server)
       .post("/api/auth/register")
-      .send(user)
-      .expect(500);
+      .send(user1)
+      .expect(201);
   });
 });
 
 // Login
 describe("POST /api/auth/login", () => {
-  let user = { email: "test@test.com", password: "test" };
+  let user = {
+    password: "tes11",
+    email: "tes11@test.com"
+  };
   it("testing Login  user:", () => {
     return request(server)
       .post("/api/auth/login")
@@ -48,5 +51,14 @@ describe("GET /api/movies", () => {
         expect(Array.isArray(res.body)).toBe(true);
         expect(200);
       });
+  });
+});
+
+// Login with Oauth
+describe("GET /api/oauth/login", () => {
+  it("testing Get request for oauth user:", () => {
+    return request(server)
+      .get("/api/oauth/login")
+      .expect(401);
   });
 });
