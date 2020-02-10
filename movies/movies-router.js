@@ -20,7 +20,6 @@ router.get("/", (req, res) => {
                   "https://res.cloudinary.com/donsjzduw/image/upload/v1580504817/hfjrl5wbkiugy4y0gmqu.jpg";
               } else {
                 movies.data[i].image = res1.data.Poster;
-                movies.data[i].ratings = res1.data.Ratings;
               }
               if (i == movies.data.length - 1) {
                 res.status(200).json(movies.data);
