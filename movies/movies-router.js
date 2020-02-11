@@ -68,6 +68,12 @@ router.post("/moviedetails", (req, res) => {
                 `https://api.themoviedb.org/3/movie/${movie1.id}/credits?api_key=${process.env.TMDB_APIKEY}`
               )
               .then(casts => {
+                const Directors = casts.data.crew.filter(
+                  direct =>
+                    (direct.department =
+                      "Directing" && direct.job == "Director")
+                );
+
                 axios
                   .get(
                     `https://api.themoviedb.org/3/movie/${movie1.id}?api_key=${process.env.TMDB_APIKEY}&language=en-US
@@ -78,6 +84,7 @@ router.post("/moviedetails", (req, res) => {
                       movie: movie1,
                       moviedetail: moviedetail.data,
                       casts: [casts.data.cast.slice(0, 4)],
+                      directors: Directors,
                       videos: respo.data.results
                     });
                   })
