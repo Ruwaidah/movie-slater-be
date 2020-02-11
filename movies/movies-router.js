@@ -68,22 +68,50 @@ router.post("/moviedetails", (req, res) => {
                 `https://api.themoviedb.org/3/movie/${movie1.id}/credits?api_key=${process.env.TMDB_APIKEY}`
               )
               .then(casts => {
+                axios
+                  .get(
+                    `https://api.themoviedb.org/3/movie/${movie1.id}?api_key=${process.env.TMDB_APIKEY}&language=en-US
+                `
+                  )
+                  .then(moviedetail => {
+                    res.status(200).json({
+                      movie: movie1,
+                      moviedetail: moviedetail.data,
+                      casts: [casts.data.cast.slice(0, 4)],
+                      videos: respo.data.results
+                    });
+                  })
+                  .catch(error =>
+                    res.status(200).json({
+                      movie: movie1,
+                      moviedetail: null,
+                      casts: [casts.data.cast.slice(0, 4)],
+                      videos: respo.data.results
+                    })
+                  );
+              })
+              .catch(error =>
                 res.status(200).json({
                   movie: movie1,
-                  casts: [casts.data.cast.slice(0, 4)],
+                  moviedetail: null,
+                  casts: [],
                   videos: respo.data.results
-                });
-              });
+                })
+              );
           })
           .catch(error =>
-            res.status(500).json({ message: "error geting Data" })
+            res.status(200).json({
+              movie: movie1,
+              moviedetail: null,
+              casts: [],
+              videos: []
+            })
           )
 
           .catch(error =>
             res.status(500).json({ message: "error geting Data" })
           );
-      })
-      .catch(error => res.status(500).json({ message: "error geting Data" }));
+      });
   }
 });
 
