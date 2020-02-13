@@ -11,9 +11,9 @@ describe("GET /", () => {
 // Register
 describe("POST /api/auth/register", () => {
   let user1 = {
-    username: "tes111",
-    password: "tes111",
-    email: "tes111@test.com"
+    username: "123451",
+    password: "123451",
+    email: "123451@test.com"
   };
   it("testing register new user::", () => {
     return request(server)
@@ -26,12 +26,51 @@ describe("POST /api/auth/register", () => {
 // Login
 describe("POST /api/auth/login", () => {
   let user = {
-    password: "tes11",
-    email: "tes11@test.com"
+    password: "1234",
+    email: "1234@test.com"
   };
   it("testing Login  user:", () => {
     return request(server)
       .post("/api/auth/login")
+      .send(user)
+      .expect(200)
+      .then(res => {
+        const token = res.body.token;
+        expect(res.body.token).toBe(token);
+      });
+  });
+});
+
+// Owner Login and Register
+
+// Register
+describe("POST /api/auth/owner/register", () => {
+  let user = {
+    username: "112",
+    password: "112",
+    email: "112@test.com"
+  };
+  it("testing register owner user:", () => {
+    return request(server)
+      .post("/api/auth/owner/register")
+      .send(user)
+      .expect(201)
+      .then(res => {
+        const token = res.body.token;
+        expect(res.body.token).toBe(token);
+      });
+  });
+});
+
+// Login
+describe("POST /api/auth/owner/login", () => {
+  let user = {
+    email: "12@test.com",
+    password: "12"
+  };
+  it("testing Login  oauth user:", () => {
+    return request(server)
+      .post("/api/auth/owner/login")
       .send(user)
       .expect(200)
       .then(res => {
@@ -49,16 +88,21 @@ describe("GET /api/movies", () => {
       .expect(200)
       .then(res => {
         expect(Array.isArray(res.body)).toBe(true);
-        expect(200);
+        expect(201);
       });
   });
 });
 
-// Login with Oauth
-describe("GET /api/oauth/login", () => {
-  it("testing Get request for oauth user:", () => {
-    return request(server)
-      .get("/api/oauth/login")
-      .expect(401);
-  });
-});
+// Get Movie Details
+// describe("POST /api/movies/moviedetails", () => {
+//   title = { title: "19efewrfw1wd7" };
+//   it("testing Getting movie details:", () => {
+//     return request(server)
+//       .post("/api/movies/moviedetails", title)
+//       .expect(200)
+//       .then(res => {
+//         expect(Array.isArray(res.body)).toBe(true);
+//         expect(201);
+//       });
+//   });
+// });
