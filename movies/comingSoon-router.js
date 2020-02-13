@@ -5,7 +5,7 @@ router.get("/", (req, res) => {
   axios
     .get(
       `
-    https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.TMDB_APIKEY}&language=en-US&page=1&region=us`
+    https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.TMDB_APIKEY}&language=en-US&region=us`
     )
     .then(response => {
       res.status(200).json(response.data.results);
