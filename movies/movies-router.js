@@ -126,7 +126,7 @@ router.post("/moviedetails", (req, res) => {
 module.exports = router;
 
 function checkZip(req) {
-  if (req.query && req.query.zip !== null) return (zip = req.query.zip);
+  if (req.query && req.query.zip) return (zip = req.query.zip);
   else return (zip = "47712");
 }
 
