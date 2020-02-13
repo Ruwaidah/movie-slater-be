@@ -52,7 +52,8 @@ router.post("/moviedetails", (req, res) => {
       )
       .then(response => {
         let movie1 = response.data.results[0];
-        if (movie1.length <= 0 && i <= 5) {
+        console.log("12ew21", movie1);
+        if (response.data.results.length <= 0 && i <= 5) {
           i++;
           return getmovie(i);
         }
@@ -125,7 +126,7 @@ router.post("/moviedetails", (req, res) => {
 module.exports = router;
 
 function checkZip(req) {
-  if (req.query && req.query.zip) return (zip = req.query.zip);
+  if (req.query && req.query.zip !== null) return (zip = req.query.zip);
   else return (zip = "47712");
 }
 
