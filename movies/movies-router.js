@@ -52,7 +52,6 @@ router.post("/moviedetails", (req, res) => {
       )
       .then(response => {
         let movie1 = response.data.results[0];
-        console.log("12ew21", movie1);
         if (response.data.results.length <= 0 && i <= 5) {
           i++;
           return getmovie(i);
