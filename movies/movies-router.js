@@ -42,7 +42,9 @@ router.get("/", (req, res) => {
 // Movie Details with TMDB API
 router.post("/moviedetails", (req, res) => {
   let i = 1;
-  const title = req.body.title;
+  let title = req.body.title;
+  if (title.includes("(")) title = title.split("(")[0];
+
   getmovie(i);
 
   function getmovie(number) {
