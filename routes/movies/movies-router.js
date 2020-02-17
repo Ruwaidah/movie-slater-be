@@ -57,35 +57,35 @@ router.post("/moviedetails", (req, res) => {
                       videos: respo.data.results
                     });
                   })
-                //     .catch(error =>
-                //       res.status(200).json({
-                //         movie: movie1,
-                //         moviedetail: [],
-                //         casts: [casts.data.cast.slice(0, 4)],
-                //         videos: respo.data.results
-                //       })
-                //     );
+                  .catch(error =>
+                    res.status(200).json({
+                      movie: movie1,
+                      moviedetail: [],
+                      casts: [casts.data.cast.slice(0, 4)],
+                      videos: respo.data.results
+                    })
+                  );
               })
-            //     .catch(error =>
-            //       res.status(200).json({
-            //         movie: movie1,
-            //         moviedetail: [],
-            //         casts: [],
-            //         videos: respo.data.results
-            //       })
-            //     );
+              .catch(error =>
+                res.status(200).json({
+                  movie: movie1,
+                  moviedetail: [],
+                  casts: [],
+                  videos: respo.data.results
+                })
+              );
           })
-        // .catch(error =>
-        //   res.status(200).json({
-        //     movie: movie1,
-        //     moviedetail: [],
-        //     casts: [],
-        //     videos: []
-        //   })
-        // )
-        // .catch(error =>
-        //   res.status(500).json({ message: "error geting Data" })
-        // );
+          .catch(error =>
+            res.status(200).json({
+              movie: movie1,
+              moviedetail: [],
+              casts: [],
+              videos: []
+            })
+          )
+          .catch(error =>
+            res.status(500).json({ message: "error geting Data" })
+          );
       });
   }
 });

@@ -12,11 +12,11 @@ router.post("/", (req, res) => {
           if (!consum) {
             Consumer.add({ name: response.data.name, email: response.data.email, googleId: response.data.sub }, "oauth_consumer")
               .then(resp => res.status(201).json({ token: signToken(response.data), user: resp }))
-            // .catch(error => res.status(500).json({ message: "error adding data" }));
+              .catch(error => res.status(500).json({ message: "error adding data" }));
           }
           else res.status(200).json({ token: signToken(consum), user: consum });
         })
-      // .catch(error => res.status(500).json({ message: "error getting data" }));
+        .catch(error => res.status(500).json({ message: "error getting data" }));
     })
     .catch(error => res.status(401).json({ message: "invalid Token" }))
 });

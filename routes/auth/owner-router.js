@@ -17,7 +17,7 @@ router.post("/register", validateUser, (req, res) => {
         token: signToken(registered)
       });
     })
-  // .catch(err => res.status(500).json({ message: "Error registering" }));
+    .catch(err => res.status(500).json({ message: "Error registering" }));
 });
 
 router.post("/login", validateUser, (req, res) => {
@@ -33,7 +33,7 @@ router.post("/login", validateUser, (req, res) => {
         });
       } else res.status(401).json({ message: "Invalid Credentials" });
     })
-  // .catch(err => res.status(500).json({ message: "Login failed" }));
+    .catch(err => res.status(500).json({ message: "Login failed" }));
 });
 
 
