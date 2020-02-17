@@ -247,9 +247,6 @@ describe("GET /api/seats", () => {
     return request(server)
       .get("/api/seats")
       .expect(200)
-      .then(res => {
-        expect(Array.isArray(res.body)).toBe(true);
-      });
   });
 });
 
