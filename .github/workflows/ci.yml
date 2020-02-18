@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        node: [12, 10]
+        node: 12
     name: Test ${{ matrix.os }}/${{ matrix.node }}
     runs-on: ${{ matrix.os }}
     steps:
