@@ -205,14 +205,11 @@ describe("POST /api/oauth/login", () => {
 
 // Get all Movies
 describe("GET /api/movies", () => {
-  it("testing Getting All movies:", () => {
+  it("testing Getting All movies:", (done) => {
     return request(server)
       .get("/api/movies")
       .expect(200)
-      .then(res => {
-        expect(Array.isArray(res.body)).toBe(true);
-        expect(201);
-      });
+      .end(done)
   });
 });
 
