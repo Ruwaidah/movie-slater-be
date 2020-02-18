@@ -39,5 +39,17 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**",
+      "!**/__tests__/**",
+      "!**/coverage/**",
+      "!**/migrations/**",
+      "!**/seeds/**"
+    ]
   }
 }
