@@ -1,6 +1,5 @@
-const server = require("./server.js");
+const server = require("../api/server.js");
 const request = require("supertest");
-const axios = require("axios");
 
 describe("GET /", () => {
   it("has process .env.DB_ENV as 'development'", () => {
