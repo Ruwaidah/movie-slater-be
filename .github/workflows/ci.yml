@@ -6,13 +6,13 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
         node: [12]
     name: Test ${{ matrix.os }}/${{ matrix.node }}
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@movies
-      - uses: actions/setup-node@movies
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
         with:
           node-version: ${{ matrix.node }}
       - run: npm install
