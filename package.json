@@ -5,7 +5,7 @@
   "scripts": {
     "server": "nodemon index.js",
     "start": "node index.js",
-    "test": "jest  --runInBand --watchAll",
+    "test": "jest --detectOpenHandles --forceExit",
     "coverage": "jest --coverage --detectOpenHandles --forceExit || true"
   },
   "repository": {

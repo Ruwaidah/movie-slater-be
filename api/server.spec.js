@@ -243,10 +243,12 @@ describe("GET /api/upcoming", () => {
 
 // Seats
 describe("GET /api/seats", () => {
-  it("testing seating :", () => {
+  it("testing seating :", (done) => {
     return request(server)
       .get("/api/seats")
       .expect(200)
-  });
+      .end(done)
+  })
+
 });
 
