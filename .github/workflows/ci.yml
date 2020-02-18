@@ -11,8 +11,8 @@ jobs:
     name: Test ${{ matrix.os }}/${{ matrix.node }}
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - uses: actions/checkout@movies
+      - uses: actions/setup-node@movies
         with:
           node-version: ${{ matrix.node }}
       - run: npm install
@@ -24,8 +24,8 @@ jobs:
     name: Test and publish test coverage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - uses: actions/checkout@movies
+      - uses: actions/setup-node@movies
         with:
           node-version: "12"
       - run: npm install
