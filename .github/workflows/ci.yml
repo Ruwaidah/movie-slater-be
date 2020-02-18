@@ -3,22 +3,40 @@ name: build
 on: [push, pull_request]
 
 jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node: [12, 10]
+    name: Test ${{ matrix.os }}/${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@movies
+      - uses: actions/setup-node@movies
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm install
+      - run: npm run build --if-present
+      - run: npm test
+        env:
+          CI: true
   coverage:
     name: Test and publish test coverage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - uses: actions/checkout@movies
+      - uses: actions/setup-node@movies
         with:
           node-version: "12"
       - run: npm install
       - uses: paambaati/codeclimate-action@v2.4.0
         env:
           CC_TEST_REPORTER_ID: e3c6b91e3ef9d75d28d02ab4cfb9c8d7fd8d02887be0520008a576644e844ea8
-          CI: true
           DB_ENV: development
         with:
           coverageCommand: npm run coverage
           debug: true
+
+
 
           
