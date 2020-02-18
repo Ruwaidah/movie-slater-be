@@ -1,28 +1,46 @@
-name: build
-
-on: [push, pull_request]
-
-jobs:
-  coverage:
-    name: Test and publish test coverage
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
-        with:
-          node-version: "12"
-      - run: npm install
-      - uses: paambaati/codeclimate-action@v2.4.0
-        env:
-          CI: true
-          CC_TEST_REPORTER_ID: e3c6b91e3ef9d75d28d02ab4cfb9c8d7fd8d02887be0520008a576644e844ea8
-          JWT_SECRET: Moovie Knights of the round table
-          OM_API_KEY: b1cd679d
-          API_KEY: 4df23285pa5abfjm6yapd2nh
-          OAUTH_CLIENT: 1058848707297-n2rl4b301ivq0gipo2pbenr80sa5mtp2.apps.googleusercontent.com
-          TMDB_APIKEY: 36dcccc19cbd9fd8f72d2c83912998fc
-
-
-        with:
-          coverageCommand: npm run coverage
-          debug: true
+# The name of the workflow
+    name: build
+    
+    # What conditions trigger the workflow
+    #  In this case, all pushes and pull requests
+    on: [push, pull_request]
+    
+    # The jobs that will be run, usually in parallel
+    jobs:
+      # A job to generate and publish code coverage
+      coverage:
+    		# A more descriptive name of the job
+        name: Test and publish test coverage
+    
+    		# The OS on which the job will run
+        runs-on: ubuntu-latest
+    
+    		# The steps for the job, executed in sequence
+        steps:
+    			
+    			# A GitHub action for checking out the current branch
+          - uses: actions/checkout@master
+    
+    			# A GitHub action to setup Node.js
+          - uses: actions/setup-node@master
+            with:
+              node-version: "12"
+    
+    			# Run the NPM install command before proceeding
+          - run: npm install
+    
+    			# A GitHub action for running tests and publishing coverage
+          - uses: paambaati/codeclimate-action@v2.4.0
+            env:
+    
+    					# An environment variable, the value is a GitHub repo secret
+              CI: true
+              CC_TEST_REPORTER_ID: e3c6b91e3ef9d75d28d02ab4cfb9c8d7fd8d02887be0520008a576644e844ea8
+              JWT_SECRET: Moovie Knights of the round table
+              OM_API_KEY: b1cd679d
+              API_KEY: 4df23285pa5abfjm6yapd2nh
+              OAUTH_CLIENT: 1058848707297-n2rl4b301ivq0gipo2pbenr80sa5mtp2.apps.googleusercontent.com
+              TMDB_APIKEY: 36dcccc19cbd9fd8f72d2c83912998fc
+            with:
+    					# Run our `coverage` command from our `package.json`
+              coverageCommand: npm run coverage
