@@ -15,11 +15,11 @@ jobs:
       - uses: paambaati/codeclimate-action@v2.4.0
         env:
           CI: true
-          CC_TEST_REPORTER_ID: e3c6b91e3ef9d75d28d02ab4cfb9c8d7fd8d02887be0520008a576644e844ea8
-          JWT_SECRET: Moovie Knights of the round table
-          OM_API_KEY: b1cd679d
-          API_KEY: 4df23285pa5abfjm6yapd2nh
-          OAUTH_CLIENT: 1058848707297-n2rl4b301ivq0gipo2pbenr80sa5mtp2.apps.googleusercontent.com
-          TMDB_APIKEY: 36dcccc19cbd9fd8f72d2c83912998fc
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          OM_API_KEY: ${{ secrets.OM_API_KEY }}
+          API_KEY: ${{ secrets.API_KEY }}
+          OAUTH_CLIENT: ${{ secrets.OAUTH_CLIENT }}
+          TMDB_APIKEY: ${{ secrets.TMDB_APIKEY }}
         with:
           coverageCommand: npm run coverage

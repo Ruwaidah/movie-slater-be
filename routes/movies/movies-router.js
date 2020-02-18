@@ -44,43 +44,24 @@ router.post("/moviedetails", (req, res) => {
   let i = 1;
   let title = req.body.title;
   if (title.includes("(")) title = title.split("(")[0];
-
   getmovie(i);
 
+
   function getmovie(number) {
-    axios
-      .get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_APIKEY}&language=en-US&query=${title}&page=${number}&include_adult=true`
-      )
+    console.log(i)
+    axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_APIKEY}&language=en-US&query=${title}&page=${number}&include_adult=true`)
       .then(response => {
         let movie1 = response.data.results[0];
         if (response.data.results.length <= 0 && i <= 5) {
-          i++;
-          return getmovie(i);
+          return getmovie(i++);
         }
-
-        axios
-          .get(
-            `https://api.themoviedb.org/3/movie/${movie1.id}/videos?api_key=${process.env.TMDB_APIKEY}&language=en-US
-          `
-          )
+        axios.get(`https://api.themoviedb.org/3/movie/${movie1.id}/videos?api_key=${process.env.TMDB_APIKEY}&language=en-US`)
           .then(respo => {
-            axios
-              .get(
-                `https://api.themoviedb.org/3/movie/${movie1.id}/credits?api_key=${process.env.TMDB_APIKEY}`
-              )
+            axios.get(`https://api.themoviedb.org/3/movie/${movie1.id}/credits?api_key=${process.env.TMDB_APIKEY}`)
               .then(casts => {
                 const Directors = casts.data.crew.filter(
-                  direct =>
-                    (direct.department =
-                      "Directing" && direct.job == "Director")
-                );
-
-                axios
-                  .get(
-                    `https://api.themoviedb.org/3/movie/${movie1.id}?api_key=${process.env.TMDB_APIKEY}&language=en-US
-                `
-                  )
+                  direct => (direct.department = "Directing" && direct.job == "Director"));
+                axios.get(`https://api.themoviedb.org/3/movie/${movie1.id}?api_key=${process.env.TMDB_APIKEY}&language=en-US`)
                   .then(moviedetail => {
                     res.status(200).json({
                       movie: movie1,
@@ -90,33 +71,8 @@ router.post("/moviedetails", (req, res) => {
                       videos: respo.data.results
                     });
                   })
-                  .catch(error =>
-                    res.status(200).json({
-                      movie: movie1,
-                      moviedetail: null,
-                      casts: [casts.data.cast.slice(0, 4)],
-                      videos: respo.data.results
-                    })
-                  );
               })
-              .catch(error =>
-                res.status(200).json({
-                  movie: movie1,
-                  moviedetail: null,
-                  casts: [],
-                  videos: respo.data.results
-                })
-              );
           })
-          .catch(error =>
-            res.status(200).json({
-              movie: movie1,
-              moviedetail: null,
-              casts: [],
-              videos: []
-            })
-          )
-
           .catch(error =>
             res.status(500).json({ message: "error geting Data" })
           );
@@ -142,19 +98,15 @@ function checkDate(req) {
 }
 
 function Imagedata(title, year) {
-  if (title == "Star Wars: The Rise of Skywalker") {
-    title = "Star Wars";
-  }
-
   if (title.includes(":")) {
     title = title.split(":")[0];
   }
 
-  if (title.includes("(")) {
+  else if (title.includes("(")) {
     title = title.split("(")[0];
   }
 
-  if (title == "The Gentlemen") {
+  else if (title == "The Gentlemen") {
     year = 2019;
   }
   return axios.get(
