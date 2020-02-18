@@ -3,23 +3,6 @@ name: build
 on: [push, pull_request]
 
 jobs:
-  test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [12]
-    name: Test ${{ matrix.os }}/${{ matrix.node }}
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
-        with:
-          node-version: ${{ matrix.node }}
-      - run: npm install
-      - run: npm run build --if-present
-      - run: npm test
-        env:
-          CI: true
   coverage:
     name: Test and publish test coverage
     runs-on: ubuntu-latest
@@ -31,6 +14,7 @@ jobs:
       - run: npm install
       - uses: paambaati/codeclimate-action@v2.4.0
         env:
+          CI: true
           CC_TEST_REPORTER_ID: e3c6b91e3ef9d75d28d02ab4cfb9c8d7fd8d02887be0520008a576644e844ea8
           JWT_SECRET: Moovie Knights of the round table
           OM_API_KEY: b1cd679d
