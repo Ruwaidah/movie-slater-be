@@ -48,23 +48,19 @@ router.post("/moviedetails", (req, res) => {
 
 
   function getmovie(number) {
-    console.log(i)
     axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_APIKEY}&language=en-US&query=${title}&page=${number}&include_adult=true`)
       .then(response => {
-        let movie1 = response.data.results[0];
-        if (response.data.results.length <= 0 && i <= 5) {
-          return getmovie(i++);
-        }
-        axios.get(`https://api.themoviedb.org/3/movie/${movie1.id}/videos?api_key=${process.env.TMDB_APIKEY}&language=en-US`)
+        if (response.data.results.length <= 0 && i <= 5) return getmovie(i++);
+        axios.get(`https://api.themoviedb.org/3/movie/${response.data.results[0].id}/videos?api_key=${process.env.TMDB_APIKEY}&language=en-US`)
           .then(respo => {
-            axios.get(`https://api.themoviedb.org/3/movie/${movie1.id}/credits?api_key=${process.env.TMDB_APIKEY}`)
+            axios.get(`https://api.themoviedb.org/3/movie/${response.data.results[0].id}/credits?api_key=${process.env.TMDB_APIKEY}`)
               .then(casts => {
                 const Directors = casts.data.crew.filter(
                   direct => (direct.department = "Directing" && direct.job == "Director"));
-                axios.get(`https://api.themoviedb.org/3/movie/${movie1.id}?api_key=${process.env.TMDB_APIKEY}&language=en-US`)
+                axios.get(`https://api.themoviedb.org/3/movie/${response.data.results[0].id}?api_key=${process.env.TMDB_APIKEY}&language=en-US`)
                   .then(moviedetail => {
                     res.status(200).json({
-                      movie: movie1,
+                      movie: response.data.results[0],
                       moviedetail: moviedetail.data,
                       casts: [casts.data.cast.slice(0, 4)],
                       directors: Directors,
@@ -73,10 +69,7 @@ router.post("/moviedetails", (req, res) => {
                   })
               })
           })
-          .catch(error =>
-            res.status(500).json({ message: "error geting Data" })
-          );
-      });
+      }).catch(error => res.status(500).json({ message: "error geting Data" }));
   }
 });
 
