@@ -3,23 +3,6 @@ name: build
 on: [push, pull_request]
 
 jobs:
-  test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        node: [12, 10]
-    name: Test ${{ matrix.os }}/${{ matrix.node }}
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
-        with:
-          node-version: ${{ matrix.node }}
-      - run: npm install
-      - run: npm run build --if-present
-      - run: npm test
-        env:
-          CI: true
   coverage:
     name: Test and publish test coverage
     runs-on: ubuntu-latest
@@ -31,7 +14,12 @@ jobs:
       - run: npm install
       - uses: paambaati/codeclimate-action@v2.4.0
         env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          CI: true
+          CC_TEST_REPORTER_ID: e3c6b91e3ef9d75d28d02ab4cfb9c8d7fd8d02887be0520008a576644e844ea8
+          JWT_SECRET: Moovie Knights of the round table
+          OM_API_KEY: b1cd679d
+          API_KEY: 4df23285pa5abfjm6yapd2nh
+          OAUTH_CLIENT: 1058848707297-n2rl4b301ivq0gipo2pbenr80sa5mtp2.apps.googleusercontent.com
+          TMDB_APIKEY: 36dcccc19cbd9fd8f72d2c83912998fc
         with:
           coverageCommand: npm run coverage
-          debug: true
