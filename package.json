@@ -8,7 +8,6 @@
     "test": "cross-env DB_ENV=testing jest --verbose --i --forceExit --detectOpenHandles",
     "test-watch": "cross-env DB_ENV=testing jest --verbose --i --watchAll",
     "coverage": "cross-env DB_ENV=testing jest --verbose --i --forceExit --coverage || true"
-
   },
   "repository": {
     "type": "git",
@@ -41,5 +40,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
