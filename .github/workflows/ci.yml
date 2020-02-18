@@ -16,7 +16,7 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: e3c6b91e3ef9d75d28d02ab4cfb9c8d7fd8d02887be0520008a576644e844ea8
           CI: true
-          DB_ENV=development
+          DB_ENV: development
         with:
           coverageCommand: npm run coverage
           debug: true
