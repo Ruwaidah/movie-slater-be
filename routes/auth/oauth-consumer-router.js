@@ -5,6 +5,7 @@ const axios = require("axios")
 
 // Login With Google Oauth
 router.post("/", (req, res) => {
+  console.log(req.body.token)
   axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${req.body.token}`)
     .then(response => {
       Consumer.findBy({ email: response.data.email }, "oauth_consumer")

@@ -1,5 +1,6 @@
 const axios = require("axios");
 const router = require("express").Router();
+
 router.get("/", (req, res) => {
   checkZip(req);
   checkDate(req);
@@ -11,11 +12,14 @@ router.get("/", (req, res) => {
       let i = 0;
       imageLoop();
       function imageLoop() {
+        console.log(movies.data[i].title)
         // set timeout on each request beacuse some images were getting skipped and not showing
         setTimeout(() => {
           Imagedata(movies.data[i].title, movies.data[i].releaseYear)
             .then(res1 => {
-              if (!res1.data.Poster || res1.data.Poster == "N/A") {
+              if (movies.data[i].title == "Las píldoras de mi novio")
+                movies.data[i].image = "https://res.cloudinary.com/donsjzduw/image/upload/v1582262868/aty1hylgyzimcdbomgmc.jpg"
+              else if (!res1.data.Poster || res1.data.Poster == "N/A") {
                 movies.data[i].image =
                   "https://res.cloudinary.com/donsjzduw/image/upload/v1580504817/hfjrl5wbkiugy4y0gmqu.jpg";
               } else {
@@ -91,17 +95,18 @@ function checkDate(req) {
 }
 
 function Imagedata(title, year) {
-  if (title.includes(":")) {
+  if (title.includes(":"))
     title = title.split(":")[0];
-  }
 
-  else if (title.includes("(")) {
+  else if (title.includes("("))
     title = title.split("(")[0];
-  }
 
-  else if (title == "The Gentlemen") {
+  else if (title == "The Gentlemen")
     year = 2019;
-  }
+
+  else if (title == "Las píldoras de mi novio")
+    title = "Las pildoras de mi novio"
+
   return axios.get(
     `http://www.omdbapi.com/?t=${title}&y=${year}&apikey=${process.env.OM_API_KEY}`
   );
