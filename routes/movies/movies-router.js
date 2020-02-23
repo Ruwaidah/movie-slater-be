@@ -16,12 +16,14 @@ router.get("/", (req, res) => {
         setTimeout(() => {
           Imagedata(movies.data[i].title, movies.data[i].releaseYear)
             .then(res1 => {
-              if (!res1.data.Poster || res1.data.Poster == "N/A") {
+              if (movies.data[i].title == "Las píldoras de mi novio")
+                movies.data[i].image = "https://res.cloudinary.com/donsjzduw/image/upload/v1582262868/aty1hylgyzimcdbomgmc.jpg"
+              else if (!res1.data.Poster || res1.data.Poster == "N/A") {
                 movies.data[i].image =
                   "https://res.cloudinary.com/donsjzduw/image/upload/v1580504817/hfjrl5wbkiugy4y0gmqu.jpg";
               } else {
                 movies.data[i].image = res1.data.Poster;
-                movies.data[i].ratings = res1.data.Ratings;
+                movies.data[i].maturityRating = res1.data.Ratings;
               }
               if (i == movies.data.length - 1) {
                 res.status(200).json(movies.data);
@@ -41,50 +43,36 @@ router.get("/", (req, res) => {
 });
 
 // Movie Details with TMDB API
-router.post("/tmdb/moviedetails", (req, res) => {
+router.post("/moviedetails", (req, res) => {
   let i = 1;
-  const title = req.body.title;
+  let title = req.body.title;
+  if (title.includes("(")) title = title.split("(")[0];
   getmovie(i);
 
+
   function getmovie(number) {
-    axios
-      .get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_APIKEY}&language=en-US&query=${title}&page=${number}&include_adult=true`
-      )
+    axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_APIKEY}&language=en-US&query=${title}&page=${number}&include_adult=true`)
       .then(response => {
-        let movie1 = response.data.results[0];
-        if (movie1.length <= 0 && i <= 5) {
-          i++;
-          return getmovie(i);
-        }
-
-        axios
-          .get(
-            `https://api.themoviedb.org/3/movie/${movie1.id}/videos?api_key=${process.env.TMDB_APIKEY}&language=en-US
-          `
-          )
+        if (response.data.results.length <= 0 && i <= 5) return getmovie(i++);
+        axios.get(`https://api.themoviedb.org/3/movie/${response.data.results[0].id}/videos?api_key=${process.env.TMDB_APIKEY}&language=en-US`)
           .then(respo => {
-            axios
-              .get(
-                `https://api.themoviedb.org/3/movie/${movie1.id}/credits?api_key=${process.env.TMDB_APIKEY}`
-              )
+            axios.get(`https://api.themoviedb.org/3/movie/${response.data.results[0].id}/credits?api_key=${process.env.TMDB_APIKEY}`)
               .then(casts => {
-                res.status(200).json({
-                  movie: movie1,
-                  casts: [casts.data.cast.slice(0, 4)],
-                  videos: respo.data.results
-                });
-              });
+                const Directors = casts.data.crew.filter(
+                  direct => (direct.department = "Directing" && direct.job == "Director"));
+                axios.get(`https://api.themoviedb.org/3/movie/${response.data.results[0].id}?api_key=${process.env.TMDB_APIKEY}&language=en-US`)
+                  .then(moviedetail => {
+                    res.status(200).json({
+                      movie: response.data.results[0],
+                      moviedetail: moviedetail.data,
+                      casts: [casts.data.cast.slice(0, 4)],
+                      directors: Directors,
+                      videos: respo.data.results
+                    });
+                  })
+              })
           })
-          .catch(error =>
-            res.status(500).json({ message: "error getting Data" })
-          )
-
-          .catch(error =>
-            res.status(500).json({ message: "error getting Data" })
-          );
-      })
-      .catch(error => res.status(500).json({ message: "error getting Data" }));
+      }).catch(error => res.status(500).json({ message: "error geting Data" }));
   }
 });
 
@@ -106,21 +94,18 @@ function checkDate(req) {
 }
 
 function Imagedata(title, year) {
-  if (title == "Star Wars: The Rise of Skywalker") {
-    title = "Star Wars";
-  }
-
-  if (title.includes(":")) {
+  if (title.includes(":"))
     title = title.split(":")[0];
-  }
 
-  if (title.includes("(")) {
+  else if (title.includes("("))
     title = title.split("(")[0];
-  }
 
-  if (title == "The Gentlemen") {
+  else if (title == "The Gentlemen")
     year = 2019;
-  }
+
+  else if (title == "Las píldoras de mi novio")
+    title = "Las pildoras de mi novio"
+
   return axios.get(
     `http://www.omdbapi.com/?t=${title}&y=${year}&apikey=${process.env.OM_API_KEY}`
   );
