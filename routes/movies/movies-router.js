@@ -12,7 +12,6 @@ router.get("/", (req, res) => {
       let i = 0;
       imageLoop();
       function imageLoop() {
-        console.log(movies.data[i].title)
         // set timeout on each request beacuse some images were getting skipped and not showing
         setTimeout(() => {
           Imagedata(movies.data[i].title, movies.data[i].releaseYear)
