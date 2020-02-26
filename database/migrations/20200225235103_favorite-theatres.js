@@ -14,7 +14,7 @@ exports.up = function (knex) {
         tbl
             .integer("zip", 255)
         tbl
-            .integer("user_id")
+            .string("user_id")
             .notNullable()
 
     });
