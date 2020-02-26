@@ -21,7 +21,5 @@ exports.up = function (knex) {
 };
 
 exports.down = function (knex) {
-    return knex.schema.dropTableIfExists("consumer")
-        .dropTableIfExists("oauth_consumer")
-        .dropTableIfExists("favoriteTheatre");
+    return knex.schema.dropTableIfExists("favoriteTheatre");
 };

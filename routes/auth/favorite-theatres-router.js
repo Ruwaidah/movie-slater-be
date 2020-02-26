@@ -54,9 +54,9 @@ router.get("/", (req, res) => {
 
 
 
-router.delete("/:id", (req, res) => {
+router.delete("/", (req, res) => {
     let tb = "favoriteTheatre"
-    let data = { id: req.param.id }
+    let data = { user_id: req.query.userid, theatreId: req.query.theaterid }
     Users.deleteData(data, tb)
         .then(response => res.status(200).json({ message: "deleted" }))
         .catch(err => res.status(401).json({ message: "error in server" }))

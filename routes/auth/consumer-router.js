@@ -51,19 +51,49 @@ router.get("/:id", restricted, (req, res) => {
   Users.findBy({ id: req.params.id }, "consumer")
     .then(user => {
       if (user) {
-        res.status(200).json({
-          user: {
-            id: user.id,
-            username: user.username,
-            emaill: user.email,
-            image: user.image,
-            zipcode: user.zipcode,
-          }
-        })
+        Users.findBytheater({ user_id: user.id })
+          .then(theatres => {
+            res.status(200).json({
+              user: {
+                id: user.id,
+                username: user.username,
+                emaill: user.email,
+                image: user.image,
+                zipcode: user.zipcode,
+                theatres: theatres
+              }
+            })
+          })
       } else res.status(401).json({ message: 'user not found' })
     })
     .catch(err => res.status(500).json({ message: "Error getting data" }));
 })
+
+
+
+// UPDATE USER
+router.put("/:id", restricted, (req, res) => {
+  Users.updateUser(req.body, "consumer", { id: req.params.id })
+    .then(user => {
+      if (user) {
+        Users.findBytheater({ user_id: user.id })
+          .then(theatres => {
+            res.status(200).json({
+              user: {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                image: user.image,
+                zipcode: user.zipcode,
+                theatres: theatres
+              }
+            })
+          })
+      } else res.status(401).json({ message: 'user not found' })
+    })
+    .catch(err => res.status(500).json({ message: "Error getting data" }));
+})
+
 
 
 
