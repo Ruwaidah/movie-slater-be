@@ -9,8 +9,10 @@ const seatRouter = require("../routes/seats/seats-router.js");
 const oauth = require("../routes/auth/oauth-consumer-router.js");
 const image = require("../routes/auth/Profile-Image.js")
 const fileupload = require("express-fileupload");
-// const filterMovies = require("../routes/movies/FilterMovies-router.js")
-const filterMovies = require("../routes/movies/FilteringMovies.js")
+const filterMovies = require("../routes/movies/FilterMovies-router.js")
+// const filterMovies = require("../routes/movies/FilteringMovies.js")
+const theaters = require("../routes/movies/Theatrs-router.js")
+const favorite = require('../routes/auth/favorite-theatres-router.js')
 
 const server = express();
 
@@ -32,6 +34,8 @@ server.use("/api/seats", seatRouter);
 server.use("/api/oauth", oauth);
 server.use("/api/image", image)
 server.use("/api/filtermovies", filterMovies)
+server.use("/api/theaters", theaters)
+server.use("/api/theatres/favorite", favorite)
 
 module.exports = server;
 

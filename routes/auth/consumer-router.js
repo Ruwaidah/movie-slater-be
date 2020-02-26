@@ -7,7 +7,6 @@ const restricted = require("./restricted-middleware.js")
 
 router.post("/register", validateUser, (req, res) => {
   const user = ({ email, password, username } = req.body);
-  console.log(user)
   user.password = bcrypt.hashSync(user.password, 8);
   Users.add(user, "consumer")
     .then(consumerreg => {
@@ -58,7 +57,7 @@ router.get("/:id", restricted, (req, res) => {
             username: user.username,
             emaill: user.email,
             image: user.image,
-            zipcode: user.zipcode
+            zipcode: user.zipcode,
           }
         })
       } else res.status(401).json({ message: 'user not found' })

@@ -7,7 +7,6 @@ const restricted = require("./restricted-middleware.js")
 
 // Login With Google Oauth
 router.post("/login", (req, res) => {
-  console.log("token", req.body.token)
   axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${req.body.token}`)
     .then(response => {
       Consumer.findBy({ email: response.data.email }, "oauth_consumer")
@@ -30,16 +29,21 @@ router.get("/:googleId", restricted, (req, res) => {
   Consumer.findBy({ googleId: req.params.googleId }, "oauth_consumer")
     .then(user => {
       if (user) {
-        res.status(200).json({
-          user: {
-            id: user.id,
-            googleId: user.googleId,
-            name: user.name,
-            email: user.email,
-            image: user.image,
-            zipcode: user.zipcode
-          }
-        })
+        Consumer.findBytheater({ user_id: user.googleId })
+          .then(theatres => {
+            res.status(200).json({
+              user: {
+                id: user.id,
+                googleId: user.googleId,
+                name: user.name,
+                email: user.email,
+                image: user.image,
+                zipcode: user.zipcode,
+                theatres: theatres
+              }
+            })
+          })
+
       } else res.status(401).json({ message: 'user not found' })
     })
     .catch(err => res.status(500).json({ message: "Error getting data" }));
