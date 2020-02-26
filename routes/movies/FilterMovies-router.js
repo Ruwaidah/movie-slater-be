@@ -22,7 +22,6 @@ router.post("/", (req, res) => {
         let id;
         const response = movieById1(req.body.movies[i], req, 0, 3)
         const response2 = movieById2(req.body.movies[i], req, 3, 4)
-        console.log(response)
         title = response2.data[0].title;
         id = response2.data[0].tmsId
         movieFilter = filtering([...response.data[0].showtimes, ...response2.data[0].showtimes], timeFormat, dateToFilter)
@@ -39,12 +38,10 @@ module.exports = router;
 
 
 function movieById2(id, req, days, number) {
-    console.log(id, days)
     return data2
 }
 
 function movieById1(id, req, days, number) {
-    console.log(id, days)
     return data1
 }
 

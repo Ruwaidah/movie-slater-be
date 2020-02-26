@@ -22,7 +22,6 @@ const imageupload = file => {
 
 // Post Image
 router.post("/", (req, res) => {
-    console.log("imaging")
     const checkUser = (data) => {
         if (data.googleId)
             return [
