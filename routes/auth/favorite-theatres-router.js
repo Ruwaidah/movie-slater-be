@@ -6,6 +6,7 @@ const restricted = require("./restricted-middleware.js")
 
 
 router.post("/", (req, res) => {
+    console.log(req.body)
     let user;
     let data = req.body[0].location.address
     if (req.query.googleId) {
@@ -27,7 +28,7 @@ router.post("/", (req, res) => {
         }
         Users.add(theatre, "favoriteTheatre")
             .then(response => res.status(201).json({ message: "added to user" }))
-            .catch(error => console.log(error))
+            .catch(error => res.status(500).json(error)
     }
     else res.status(401).json({ message: "missing theatre" })
 })
