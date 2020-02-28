@@ -4,7 +4,7 @@ const router = require("express").Router();
 router.post("/", (req, res) => {
     let i = 0;
     let theatres = []
-    const noDuplicate = removeDuplicateUsingSet(req.body.theatres)[0]
+    const noDuplicate = removeDuplicateUsingSet(req.body.theatres)
     gettheatre()
     function gettheatre() {
         setTimeout(() => {
