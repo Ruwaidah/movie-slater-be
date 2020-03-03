@@ -2,8 +2,8 @@ const server = require("../api/server.js");
 const request = require("supertest");
 
 describe("GET /", () => {
-  it("has process .env.DB_ENV as 'testing'", () => {
-    expect(process.env.DB_ENV).toBe("testing")
+  it("has process .env.DB_ENV as 'development'", () => {
+    expect(process.env.DB_ENV).toBe("development")
     return request(server)
       .get("/")
       .expect({ message: "We live" })
@@ -12,7 +12,7 @@ describe("GET /", () => {
   });
 });
 
-// Register
+// // Register
 describe("POST /api/auth/register", () => {
   let user1 = {
     "username": "123455",
@@ -31,7 +31,8 @@ describe("POST /api/auth/register", () => {
   let user1 = {
     "username": "123455",
     "password": "ruw2113432aidah",
-    "email": "1213455@gmail.com"
+    "email": "1213455@gmail.com",
+    "zipcode": "1234"
   };
   it("testing register new user with invalid username:", () => {
     return request(server)
@@ -41,7 +42,7 @@ describe("POST /api/auth/register", () => {
   });
 });
 
-// Login
+// // Login
 describe("POST /api/auth/login", () => {
   let user = {
     "password": "ruw2113432aidah",
@@ -58,9 +59,8 @@ describe("POST /api/auth/login", () => {
       })
   })
 });
-;
 
-// Login with Wrong password
+// // Login with Wrong password
 describe("POST /api/auth/login", () => {
   let user = {
     "password": "ruw",
@@ -89,88 +89,9 @@ describe("POST /api/auth/login", () => {
 });
 
 
-
-// Owner Login and Register
-
-// Register
-describe("POST /api/auth/owner/register", () => {
-  let user = {
-    username: "ruwaidah33",
-    password: "ruwaidah",
-    email: "ruwaidah33@gmail.com"
-  };
-  it("testing register owner user:", () => {
-    return request(server)
-      .post("/api/auth/owner/register")
-      .send(user)
-      .expect(201)
-      .then(res => {
-        const token = res.body.token;
-        return expect(res.body.token).toBe(token);
-      });
-  });
-});
-
-// describe("POST /api/auth/register", () => {
-//   let user1 = {
-//     username: "ruwaidah33",
-//     password: "ruwaidah",
-//     email: "ruwaidah33@gmail.com"
-//   };
-//   it("testing register new user with invalid info:", () => {
-//     return request(server)
-//       .post("/api/auth/owner/register")
-//       .send(user1)
-//       .expect(500)
-//   });
-// });
-
-// Login with Wrong password
-describe("POST api/auth/owner/login", () => {
-  let user = {
-    password: "ruwa",
-    email: "ruwaidah33@gmail.com"
-  };
-  it("testing Login with wrong password:", () => {
-    return request(server)
-      .post("/api/auth/owner/login")
-      .send(user)
-      .expect(401)
-      .expect({ message: "Invalid Credentials" })
-  });
-});
-
-describe("POST /api/auth/login", () => {
-  let user = {
-    "password": "ruw2113432aidah"
-  };
-  it("testing Login with missing field:", () => {
-    return request(server)
-      .post("/api/auth/owner/login")
-      .send(user)
-      .expect(400)
-      .expect({ message: "Please fill out all required fields" })
-  });
-});
-
-// Login
-describe("POST /api/auth/owner/login", () => {
-  let userowner = {
-    password: "ruwaidah",
-    email: "ruwaidah33@gmail.com"
-  };
-  it("testing Login  owner:", () => {
-    return request(server)
-      .post("/api/auth/owner/login")
-      .send(userowner)
-      .expect(200)
-
-  });
-});
-
-// Oauth 
+// // Oauth 
 describe("POST /api/oauth/login", () => {
-  let token = { token: "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc2MmZhNjM3YWY5NTM1OTBkYjhiYjhhNjM2YmYxMWQ0MzYwYWJjOTgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMTA1ODg0ODcwNzI5Ny1uMnJsNGIzMDFpdnEwZ2lwbzJwYmVucjgwc2E1bXRwMi5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF1ZCI6IjEwNTg4NDg3MDcyOTctbjJybDRiMzAxaXZxMGdpcG8ycGJlbnI4MHNhNW10cDIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTI3MzMzMTk5NTAwMDc3Mjc4NjAiLCJlbWFpbCI6Im1vdmlla25pZ2h0MjAyMEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IkxLblZndHIzck0wYjJEWU9nZmNTUUEiLCJuYW1lIjoiRGF2ZSBUaG9tYXMiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1uU210cG1tQ2M2OC9BQUFBQUFBQUFBSS9BQUFBQUFBQUFBQS9BQ0hpM3JjUjhHOGprQkNiUmhQWFA2eUhpOGNuZGRadHdnL3M5Ni1jL3Bob3RvLmpwZyIsImdpdmVuX25hbWUiOiJEYXZlIiwiZmFtaWx5X25hbWUiOiJUaG9tYXMiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTU4MjA2MTAwNCwiZXhwIjoxNTgyMDY0NjA0LCJqdGkiOiJiM2RhMWNhYTk4NDlmNzAwZTUxYTk3NjNlZGEwY2E5ZjgyNjEwMjE5In0.PvXOGyODWjWnsxW0-ySmE_VnKGUT2SiW4F-QAECyuoJiBmn1SVuJDs9q9BHsxTFOkxjGBQwQhFWhEkZh1YmexZviBT0vBsRwJxZVUp1BgSRSa84K_aWrTdNZzrAu0ITBpECZ9McWmKdvBGi4XSW0SU45K47gfboMNjnDupHz_lC_TQ9PWnnXWnu0NBzlonFQs5sVg4rbxUK8VlId3HAW0ydEH4ii8DZBEh_MkbWX4nxXh9BABAyL_DpOkt0_33Cu9ow99qre_aj7dQsC27tzFc0C9MZUUujfcsfc3x2Dx0YszhVCmer30hdlXMeKbDomsJ4VaoULvUW9MrVL-3K5wg" }
+  let token = { token: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3ZDU1ZmY0ZTEwOTkxZDZiMGVmZDM5MmI5MWEzM2U1NGMwZTIxOGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMTA1ODg0ODcwNzI5Ny1uMnJsNGIzMDFpdnEwZ2lwbzJwYmVucjgwc2E1bXRwMi5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF1ZCI6IjEwNTg4NDg3MDcyOTctbjJybDRiMzAxaXZxMGdpcG8ycGJlbnI4MHNhNW10cDIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDg1OTkxNzk5MTY1MDYxMzIxMTYiLCJlbWFpbCI6InJ1d2FpZGFoLnJpeWFkaEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6Ind4bWxHUldpWWpYWDEta3pTVXhaT3ciLCJuYW1lIjoiUnV3YWlkYWggQWxmYWtocmkiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2c0ZTB6d3N2bEJLcV8yTmlWeWlBOE5NX2RfSmZaNlMtOVV1NjhuRGc9czk2LWMiLCJnaXZlbl9uYW1lIjoiUnV3YWlkYWgiLCJmYW1pbHlfbmFtZSI6IkFsZmFraHJpIiwibG9jYWxlIjoiZW4iLCJpYXQiOjE1ODMyNTQzMjEsImV4cCI6MTU4MzI1NzkyMSwianRpIjoiMDVhYjA3Yzc2NzZjYjU2OTk3ZmEzZTYwM2UzOTMyOGM0MDAyM2Y0NiJ9.LckUvWn0TnKQBVHNiqMMofKiwULbGEL1zROEbNF76wI5yIeItxcAWhYZ-SC3MVUVP2HoJ3TkVKvreHDkMsJvx6qHHnUAFZC-o0NXSJxpcGnMcBR94jru8uvOM0GISNX3GSz38h1dTjVVcTNjVXMKZiAZrH8a-24kVkmgsWqfiHNcZt2-kF-xtwWLUddp3fOP-sMjc573QleSkk_6lNL5k2SwiHY7loYC8A5SVg3_pmYfDJ9ShjIkW-WiQRbHilnyGmt8ZJMH9iQtTB2-dLRUhda1aW6TTjjSmevZbVarVYVcjdOlK9MgPM-Q4ZnXc9pKTyrvzb9FIvxpOs0RyQAGIA" }
   it("testing signup with oauth:", () => {
     return request(server)
       .post("/api/oauth/login")
@@ -180,7 +101,7 @@ describe("POST /api/oauth/login", () => {
 });
 
 describe("POST /api/oauth/login", () => {
-  let token = { token: "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc2MmZhNjM3YWY5NTM1OTBkYjhiYjhhNjM2YmYxMWQ0MzYwYWJjOTgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMTA1ODg0ODcwNzI5Ny1uMnJsNGIzMDFpdnEwZ2lwbzJwYmVucjgwc2E1bXRwMi5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF1ZCI6IjEwNTg4NDg3MDcyOTctbjJybDRiMzAxaXZxMGdpcG8ycGJlbnI4MHNhNW10cDIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTI3MzMzMTk5NTAwMDc3Mjc4NjAiLCJlbWFpbCI6Im1vdmlla25pZ2h0MjAyMEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IkxLblZndHIzck0wYjJEWU9nZmNTUUEiLCJuYW1lIjoiRGF2ZSBUaG9tYXMiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tLy1uU210cG1tQ2M2OC9BQUFBQUFBQUFBSS9BQUFBQUFBQUFBQS9BQ0hpM3JjUjhHOGprQkNiUmhQWFA2eUhpOGNuZGRadHdnL3M5Ni1jL3Bob3RvLmpwZyIsImdpdmVuX25hbWUiOiJEYXZlIiwiZmFtaWx5X25hbWUiOiJUaG9tYXMiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTU4MjA2MTAwNCwiZXhwIjoxNTgyMDY0NjA0LCJqdGkiOiJiM2RhMWNhYTk4NDlmNzAwZTUxYTk3NjNlZGEwY2E5ZjgyNjEwMjE5In0.PvXOGyODWjWnsxW0-ySmE_VnKGUT2SiW4F-QAECyuoJiBmn1SVuJDs9q9BHsxTFOkxjGBQwQhFWhEkZh1YmexZviBT0vBsRwJxZVUp1BgSRSa84K_aWrTdNZzrAu0ITBpECZ9McWmKdvBGi4XSW0SU45K47gfboMNjnDupHz_lC_TQ9PWnnXWnu0NBzlonFQs5sVg4rbxUK8VlId3HAW0ydEH4ii8DZBEh_MkbWX4nxXh9BABAyL_DpOkt0_33Cu9ow99qre_aj7dQsC27tzFc0C9MZUUujfcsfc3x2Dx0YszhVCmer30hdlXMeKbDomsJ4VaoULvUW9MrVL-3K5wg" }
+  let token = { token: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE3ZDU1ZmY0ZTEwOTkxZDZiMGVmZDM5MmI5MWEzM2U1NGMwZTIxOGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMTA1ODg0ODcwNzI5Ny1uMnJsNGIzMDFpdnEwZ2lwbzJwYmVucjgwc2E1bXRwMi5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsImF1ZCI6IjEwNTg4NDg3MDcyOTctbjJybDRiMzAxaXZxMGdpcG8ycGJlbnI4MHNhNW10cDIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDg1OTkxNzk5MTY1MDYxMzIxMTYiLCJlbWFpbCI6InJ1d2FpZGFoLnJpeWFkaEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6Ind4bWxHUldpWWpYWDEta3pTVXhaT3ciLCJuYW1lIjoiUnV3YWlkYWggQWxmYWtocmkiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2c0ZTB6d3N2bEJLcV8yTmlWeWlBOE5NX2RfSmZaNlMtOVV1NjhuRGc9czk2LWMiLCJnaXZlbl9uYW1lIjoiUnV3YWlkYWgiLCJmYW1pbHlfbmFtZSI6IkFsZmFraHJpIiwibG9jYWxlIjoiZW4iLCJpYXQiOjE1ODMyNTQzMjEsImV4cCI6MTU4MzI1NzkyMSwianRpIjoiMDVhYjA3Yzc2NzZjYjU2OTk3ZmEzZTYwM2UzOTMyOGM0MDAyM2Y0NiJ9.LckUvWn0TnKQBVHNiqMMofKiwULbGEL1zROEbNF76wI5yIeItxcAWhYZ-SC3MVUVP2HoJ3TkVKvreHDkMsJvx6qHHnUAFZC-o0NXSJxpcGnMcBR94jru8uvOM0GISNX3GSz38h1dTjVVcTNjVXMKZiAZrH8a-24kVkmgsWqfiHNcZt2-kF-xtwWLUddp3fOP-sMjc573QleSkk_6lNL5k2SwiHY7loYC8A5SVg3_pmYfDJ9ShjIkW-WiQRbHilnyGmt8ZJMH9iQtTB2-dLRUhda1aW6TTjjSmevZbVarVYVcjdOlK9MgPM-Q4ZnXc9pKTyrvzb9FIvxpOs0RyQAGIA" }
   it("testing Login  oauth:", () => {
     return request(server)
       .post("/api/oauth/login")
@@ -200,37 +121,38 @@ describe("POST /api/oauth/login", () => {
       .expect({ message: "invalid Token" })
   });
 });
+jest.setTimeout(1000);
 
 // Get all Movies
 describe("GET /api/movies", () => {
-  it("testing Getting All movies:", (done) => {
-    return request(server)
+  // jest.retryTimes(5);
+  it("testing Getting All movies:", async () => {
+    const res = await request(server)
       .get("/api/movies")
-      .expect(200)
-      .end(done)
+    expect(res.statusCode).toEqual(200)
   });
 });
+
+jest.setTimeout(5000);
 
 // Get Movie Details
 describe("POST /api/movies/moviedetails", () => {
   title = { title: "1917" };
-  it("testing Getting movie details:", () => {
-    return request(server)
-      .post("/api/movies/moviedetails", title)
-      .expect(500)
-
+  it("testing Getting movie details:", async (done) => {
+    const res = await request(server)
+      .post("/api/movies/moviedetails")
+      .send(title)
+    expect(res.statusCode).toEqual(200)
   });
 });
 
-// Coming Movies
+// // Coming Movies
 describe("GET /api/upcoming", () => {
-  it("testing Getting All movies:", () => {
-    return request(server)
+  it("testing Getting upcoming movies:", async () => {
+    const res = await request(server)
       .get("/api/upcoming")
       .expect(200)
-      .then(res => {
-        expect(Array.isArray(res.body)).toBe(true);
-      });
+    expect(Array.isArray(res.body)).toBe(true)
   });
 });
 
@@ -247,3 +169,102 @@ describe("GET /api/seats", () => {
 
 });
 
+
+jest.setTimeout(5000);
+
+// Get Movie Details
+// describe("POST /filtermovies", () => {
+//   jest.setTimeout(1000);
+
+//   it("testing filtering movies:", () => {
+//     return request(server)
+//       .post("/api/filtermovies")
+//       .send({
+//         movies: ["MV012052110000"],
+//         times: ["3-5 PM", "6-8 PM", "9-Midnight"],
+//         days: ["03/05",
+//           "Thursday",
+//           "2020-03-05"]
+//       })
+//       .expect(200)
+//   });
+// });
+
+
+jest.setTimeout(5000);
+
+// Get theater-router
+// describe("GET /theaters", () => {
+//   jest.setTimeout(5000);
+//   data = {
+//     theatres: ['5938']
+//   }
+//   it("testing theaters movies:", () => {
+//     return request(server)
+//       .post("/api/theaters")
+//       .send(data)
+//       .expect(200)
+//   });
+// });
+
+
+// Get theater - router
+describe("POST /theaters/favorite", () => {
+  data = {
+    theatres: ['5938']
+  }
+  it("testing favorite theaters :", () => {
+    return request(server)
+      .post("/api/theatres/favorite?userId=1")
+      .send([{
+        location: {
+          address: {
+            street: "4200 North Third Ave.",
+            state: "IN",
+            city: "Evansville",
+            country: "USA",
+            postalCode: "47710"
+          }
+        }
+      }
+      ])
+      .expect(201)
+  });
+
+  it("testing favorite theaters :", () => {
+    return request(server)
+      .post("/api/theatres/favorite?googleId=108599179916506132116")
+      .send([{
+        location: {
+          address: {
+            street: "4200 North Third Ave.",
+            state: "IN",
+            city: "Evansville",
+            country: "USA",
+            postalCode: "47710"
+          }
+        }
+      }
+      ])
+      .expect(201)
+  });
+});
+
+
+// Get theater - router
+describe("GET /theaters/favorite", () => {
+  data = {
+    theatres: ['5938']
+  }
+  it("testing favorite theaters :", () => {
+    return request(server)
+      .get("/api/theatres/favorite?userId=1")
+      .expect(200)
+  });
+
+  it("testing favorite theaters :", () => {
+    return request(server)
+      .get("/api/theatres/favorite?googleId=108599179916506132116")
+      .expect(200)
+  });
+});
