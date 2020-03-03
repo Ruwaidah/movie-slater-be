@@ -10,8 +10,6 @@ router.post("/", (req, res) => {
     let movieFilter = [];
     let dateToFilter = req.body.days.map(date => date[2])
     let i = 0;
-
-
     const timeFormat = timeFormatFun(req.body.times)
 
     getallmovies()
@@ -80,6 +78,7 @@ function getDayName(dateStr, locale) {
 
 
 function filtering(data, times, dates) {
+    console.log(data)
     let showTimefilterDate = data.filter(date => dates.includes(date.dateTime.split("T")[0]));
     showTimefilterDate = showTimefilterDate.filter(time => times.includes(Number(time.dateTime.split("T")[1].split(":")[0])))
     return showTimefilterDate
