@@ -173,39 +173,39 @@ describe("GET /api/seats", () => {
 jest.setTimeout(5000);
 
 // Get Movie Details
-// describe("POST /filtermovies", () => {
-//   jest.setTimeout(1000);
+describe("POST /filtermovies", () => {
+  jest.setTimeout(1000);
 
-//   it("testing filtering movies:", () => {
-//     return request(server)
-//       .post("/api/filtermovies")
-//       .send({
-//         movies: ["MV012052110000"],
-//         times: ["3-5 PM", "6-8 PM", "9-Midnight"],
-//         days: ["03/05",
-//           "Thursday",
-//           "2020-03-05"]
-//       })
-//       .expect(200)
-//   });
-// });
+  it("testing filtering movies:", () => {
+    return request(server)
+      .post("/api/filtermovies")
+      .send({
+        movies: ["MV012052110000"],
+        times: ["3-5 PM", "6-8 PM", "9-Midnight"],
+        days: ["03/05",
+          "Thursday",
+          "2020-03-05"]
+      })
+      .expect(200)
+  });
+});
 
 
 jest.setTimeout(5000);
 
-// Get theater-router
-// describe("GET /theaters", () => {
-//   jest.setTimeout(5000);
-//   data = {
-//     theatres: ['5938']
-//   }
-//   it("testing theaters movies:", () => {
-//     return request(server)
-//       .post("/api/theaters")
-//       .send(data)
-//       .expect(200)
-//   });
-// });
+// Get theater - router
+describe("GET /theaters", () => {
+  jest.setTimeout(5000);
+  data = {
+    theatres: ['5938']
+  }
+  it("testing theaters movies:", () => {
+    return request(server)
+      .post("/api/theaters")
+      .send(data)
+      .expect(200)
+  });
+});
 
 
 // Get theater - router
