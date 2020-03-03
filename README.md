@@ -1,10 +1,5 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/539e1771af924b732734/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/movie-slater-be/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/539e1771af924b732734/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/movie-slater-be/test_coverage)
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by. Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric. Contributing to docs does NOT count as a PR to meet your weekly requirements.
 
 # API Documentation
 
@@ -14,25 +9,14 @@
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
 - Clone this repo
 - **yarn install** to install all required dependencies
 - **yarn server** to start the local server
 - **yarn test** to start server using testing environment
 
-### Backend framework goes here
-
-🚫 Why did you choose this framework?
-
-- Point One
-- Point Two
-- Point Three
-- Point Four
+Backend Framework : Node, Express
 
 ## 2️⃣ Endpoints
-
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
 
 #### Organization Routes
 
@@ -55,20 +39,18 @@ To get the server running locally:
 
 # Data Model
 
-🚫This is just an example. Replace this with your data model
-
-#### 2️⃣ ORGANIZATIONS
+#### 2️⃣ Theatre seating
 
 ---
 
 ```
 {
   id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
+  row: STRING
+  column: INTEGER
+  available: BOOLEAN
+  seatName: STRING
+  handicap: BOOLEAN
 }
 ```
 
@@ -79,52 +61,35 @@ To get the server running locally:
 ```
 {
   id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
   email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
+  username: STRING
+  password: STRING
 }
 ```
 
-## 2️⃣ Actions
+## 2️⃣ Actions - Consumers
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+`add()` -> Returns the created consumer
 
-`getOrgs()` -> Returns all organizations
+`find()` -> Returns all consumer
 
-`getOrg(orgId)` -> Returns a single organization by ID
+`findBy(filter)` -> Returns a consumer by a filter. eg: findBy(email)
 
-`addOrg(org)` -> Returns the created org
+`findById(id)` -> Returns a consumer by ID
 
-`updateOrg(orgId)` -> Update an organization by ID
+## O-Auth Consumers
 
-`deleteOrg(orgId)` -> Delete an organization by ID
-<br>
-<br>
-<br>
-`getUsers(orgId)` -> if no param all users
+`add()` -> Returns the created o-auth consumer
 
-`getUser(userId)` -> Returns a single user by user ID
+`findBy(email)` -> Returns a o-auth consumer by a email
 
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
-
-`updateUser(userId, changes object)` -> Updates a single user by ID.
-
-`deleteUser(userId)` -> deletes everything dependent on the user
+`findById(id)` -> Returns a o-auth consumer by ID
 
 ## 3️⃣ Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
-
-🚫 These are just examples, replace them with the specifics for your app
 
 _ STAGING_DB - optional development db for using functionality not available in SQLite
 _ NODE\*ENV - set to "development" until ready for "production"
@@ -171,5 +136,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+See [Frontend Documentation] https://github.com/Lambda-School-Labs/movie-slater-fe

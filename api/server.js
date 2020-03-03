@@ -9,7 +9,6 @@ const seatRouter = require("../routes/seats/seats-router.js");
 const oauth = require("../routes/auth/oauth-consumer-router.js");
 const image = require("../routes/auth/Profile-Image.js")
 const fileupload = require("express-fileupload");
-// const filterMovies = require("../routes/movies/FilterMovies-router.js")
 const filterMovies = require("../routes/movies/FilteringMovies.js")
 const theaters = require("../routes/movies/Theatrs-router.js")
 const favorite = require('../routes/auth/favorite-theatres-router.js')

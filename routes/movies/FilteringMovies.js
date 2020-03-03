@@ -10,53 +10,36 @@ router.post("/", (req, res) => {
     let movieFilter = [];
     let dateToFilter = req.body.days.map(date => date[2])
     let i = 0;
-
-
     const timeFormat = timeFormatFun(req.body.times)
-
+    let id;
+    let title = '';
     getallmovies()
     function getallmovies() {
-        let title = '';
-        let id;
         setTimeout(() => {
-            movieById(req.body.movies[i], req, 0, 3)
-                .then(response => {
-                    movieById(req.body.movies[i], req, 3, 4)
-                        .then(response2 => {
-                            if (response.data.length == 0 && response2.data.length == 0) { title = null; results = []; id = '' }
-                            else if (response.data.length == 0 && response2.data.length > 0) {
-                                id = response2.data[0].tmsId
-                                title = response2.data[0].title
-                                movieFilter = filtering(response2.data[0].showtimes, timeFormat, dateToFilter)
-                                results = filteDuplicate(movieFilter)
-                            }
-                            else if (response.data.length > 0 && response2.data.length == 0) {
-                                id = response.data[0].tmsId
-                                title = response.data[0].title
-                                movieFilter = filtering(response.data[0].showtimes, timeFormat, dateToFilter)
-                                results = filteDuplicate(movieFilter)
-                            }
-                            else {
-                                title = response2.data[0].title;
-                                id = response2.data[0].tmsId
-                                movieFilter = filtering([...response.data[0].showtimes, ...response2.data[0].showtimes], timeFormat, dateToFilter)
-                                results = filteDuplicate(movieFilter)
-                            }
-                            moviesAfterFilter.push({ id: id, movie: title, showtimes: results })
-                            if (i == req.body.movies.length - 1)
-                                res.status(200).json(moviesAfterFilter)
-
-                            else {
-                                i++;
-                                getallmovies()
-                            }
-                        })
-
-                }).catch(error =>
-                    res.status(500).json({ message: "error geting Data" }))
-
+            movieById(req.body.movies[i], req, 0, 3).then(response => {
+                movieById(req.body.movies[i], req, 3, 4).then(response2 => {
+                    if (response.data.length == 0 && response2.data.length == 0) { title = null; results = []; id = '' }
+                    else if (response.data.length == 0 && response2.data.length > 0) {
+                        id = response2.data[0].tmsId; title = response2.data[0].title;
+                        movieFilter = filtering(response2.data[0].showtimes, timeFormat, dateToFilter)
+                        results = filteDuplicate(movieFilter)
+                    }
+                    else if (response.data.length > 0 && response2.data.length == 0) {
+                        id = response.data[0].tmsId; title = response.data[0].title;
+                        movieFilter = filtering(response.data[0].showtimes, timeFormat, dateToFilter)
+                        results = filteDuplicate(movieFilter)
+                    }
+                    else {
+                        title = response2.data[0].title; id = response2.data[0].tmsId;
+                        movieFilter = filtering([...response.data[0].showtimes, ...response2.data[0].showtimes], timeFormat, dateToFilter)
+                        results = filteDuplicate(movieFilter);
+                    }
+                    moviesAfterFilter.push({ id: id, movie: title, showtimes: results })
+                    if (i == req.body.movies.length - 1) res.status(200).json(moviesAfterFilter)
+                    else { i++; getallmovies() }
+                })
+            }).catch(error => res.status(500).json({ message: "error geting Data" }))
         }, 1000)
-
     }
 })
 
@@ -80,6 +63,7 @@ function getDayName(dateStr, locale) {
 
 
 function filtering(data, times, dates) {
+    console.log(data)
     let showTimefilterDate = data.filter(date => dates.includes(date.dateTime.split("T")[0]));
     showTimefilterDate = showTimefilterDate.filter(time => times.includes(Number(time.dateTime.split("T")[1].split(":")[0])))
     return showTimefilterDate
