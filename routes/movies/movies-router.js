@@ -9,7 +9,6 @@ router.get("/", (req, res) => {
       `http://data.tmsapi.com/v1.1/movies/showings?startDate=${date}&zip=${zip}&api_key=${process.env.API_KEY}`
     )
     .then((movies) => {
-      console.log("wfwefew", movies.data.length);
       if (movies.data.length > 0) {
         let i = 0;
         imageLoop();
